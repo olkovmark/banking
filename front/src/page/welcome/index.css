@@ -21,6 +21,7 @@
   text-align: center;
   display: grid;
   gap: 16px;
+  margin-top: 20%;
 }
 .heading__title {
   font-size: 42px;

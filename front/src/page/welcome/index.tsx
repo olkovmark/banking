@@ -1,10 +1,7 @@
-import React from "react";
-import backgroundImg from "./background.png";
-import moneyImg from "./money.png";
 import "./index.css";
 import { PageContent } from "../../component/page-content";
 import { Button } from "../../component/button";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const WellcomePage = () => {
   const login = () => {};
@@ -13,7 +10,7 @@ export const WellcomePage = () => {
   return (
     <div className="page">
       <div className="background__img"></div>
-      <PageContent>
+      <PageContent isBetween>
         <div className="heading">
           <h1 className="heading__title">Hello!</h1>
           <h4 className="heading__sub__title">Welcome to bank app</h4>
