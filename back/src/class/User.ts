@@ -4,6 +4,7 @@ export class User {
   private static list: User[] = []
   public isEmailValid = false
   private emailCode: string | null = null
+  private passwordCode: string | null = null
   constructor(
     public email: string,
     public password: string,
@@ -12,6 +13,11 @@ export class User {
   generateEmailCode(): string {
     this.emailCode = GenerateCode('1234567890', 4)
     return this.emailCode
+  }
+
+  generatePasswordCode(): string {
+    this.passwordCode = GenerateCode('1234567890', 4)
+    return this.passwordCode
   }
 
   validEmail(code: string): boolean {
@@ -24,8 +30,17 @@ export class User {
     return isValid
   }
 
+  updatePassword(password: string) {
+    this.password = password
+  }
+
   static getUser(email: string) {
     return this.list.find((v) => v.email === email) || null
+  }
+  static getUserByCode(code: string) {
+    return (
+      this.list.find((v) => v.passwordCode === code) || null
+    )
   }
 
   static create(email: string, password: string): User {

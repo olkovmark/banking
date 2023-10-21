@@ -5,12 +5,24 @@ export class Session {
   public static sessions: Session[] = []
 
   static add(email: string): Session {
-    const session = new Session(
-      GenerateCode('asdvafAasd', 10),
-      email,
-    )
+    const code = GenerateCode('qwertyuiopQWERTYUIOP', 10)
+    const session = new Session(code, email)
+    setTimeout(() => {
+      this.removeSession(code)
+    }, 600000)
     this.sessions.push(session)
     return session
+  }
+  static findSession(token: string) {
+    return (
+      this.sessions.find((v) => v.code === token) || null
+    )
+  }
+
+  static removeSession(code: string) {
+    this.sessions = this.sessions.filter(
+      (value) => value.code !== code,
+    )
   }
 
   static check(code: string, email: string): Boolean {

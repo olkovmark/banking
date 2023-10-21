@@ -1,0 +1,20 @@
+.balance__actions {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  position: absolute;
+  bottom: -37px;
+  left: 0;
+  right: 0;
+  gap: 12px;
+}
+
+.balance__actions > img {
+  cursor: pointer;
+  background-color: #5b94e9;
+  border-radius: 100px;
+  border: 10px solid #fff;
+  padding: 12px;
+  width: 30px;
+  box-sizing: content-box;
+}

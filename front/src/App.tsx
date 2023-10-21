@@ -6,8 +6,7 @@ import { PrivateRoute } from "./routes/PrivateRoute";
 import { BalancePage } from "./page/balance";
 import { ErrorPage } from "./page/error";
 import { RecivePage } from "./page/recive";
-import { RecoveryPage } from "./page/recovery";
-import { RecoveryConfirmPage } from "./page/recovery-confirm";
+
 import { SendPage } from "./page/send";
 import { SettingsPage } from "./page/settings";
 import { TransactionPage } from "./page/transaction";
@@ -16,6 +15,8 @@ import { NotificationsPage } from "./page/notifications";
 import { SignIn } from "./container/sign-in";
 import { SignUp } from "./container/sign-up";
 import { SignUpConfirm } from "./container/sign-up-confirm";
+import { Recovery } from "./container/recovery";
+import { RecoveryConfirm } from "./container/recovery-confirm";
 
 function App() {
   return (
@@ -58,7 +59,7 @@ function App() {
             path="/recovery"
             element={
               <AuthRoute>
-                <RecoveryPage />
+                <Recovery />
               </AuthRoute>
             }
           />
@@ -66,7 +67,7 @@ function App() {
             path="/recovery-confirm"
             element={
               <AuthRoute>
-                <RecoveryConfirmPage />
+                <RecoveryConfirm />
               </AuthRoute>
             }
           />

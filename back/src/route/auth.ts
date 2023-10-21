@@ -3,9 +3,37 @@ import { User } from '../class/User'
 import { Session } from '../class/Session'
 export const AuthRouter = express.Router()
 
+const user1 = User.create('123@ga.com', 'qwertyW123')
+user1.isEmailValid = true
+
+Session.sessions.push(
+  new Session('qttRwouYpu', '123@ga.com'),
+)
+
 AuthRouter.post('/signin', (req, res) => {
-  console.log('message')
-  res.status(200).json('Auth')
+  const { email, password } = req.body
+  if (!email || !password)
+    res
+      .status(400)
+      .json({ message: 'Email or password not found' })
+
+  try {
+    const user = User.getUser(email)
+    if (!user || user.password !== password)
+      throw { message: 'Email or password incorrect' }
+
+    const session = Session.add(user.email)
+    const { isEmailValid: isConfirm } = user
+
+    res.status(200).json({
+      token: session.code,
+      user: { email, isConfirm },
+    })
+  } catch (error: any) {
+    res
+      .status(400)
+      .json({ message: error.message || 'Error' })
+  }
 })
 
 AuthRouter.post('/signup', (req, res) => {
@@ -33,6 +61,7 @@ AuthRouter.post('/signup', (req, res) => {
       .json({ message: error.message || 'Error' })
   }
 })
+
 AuthRouter.post('/signup-confirm', (req, res) => {
   const { email, code } = req.body
   if (!email || !code)
@@ -49,6 +78,45 @@ AuthRouter.post('/signup-confirm', (req, res) => {
     const { isEmailValid: isConfirm } = user
 
     res.status(200).json({ user: { email, isConfirm } })
+  } catch (error: any) {
+    res
+      .status(400)
+      .json({ message: error.message || 'Error' })
+  }
+})
+
+AuthRouter.post('/recovery', (req, res) => {
+  const { email } = req.body
+  if (!email)
+    res
+      .status(400)
+      .json({ message: 'Email or password not found' })
+
+  try {
+    const user = User.getUser(email)
+    if (!user) throw { message: 'Email error' }
+
+    console.log(user.generatePasswordCode())
+
+    res.status(200).json({})
+  } catch (error: any) {
+    res
+      .status(400)
+      .json({ message: error.message || 'Error' })
+  }
+})
+AuthRouter.post('/recovery-confirm', (req, res) => {
+  const { code, password } = req.body
+  if (!code || !password)
+    res
+      .status(400)
+      .json({ message: 'Email or password not found' })
+
+  try {
+    const user = User.getUserByCode(code)
+    if (!user) throw { message: 'Code error' }
+    user.password = password
+    res.status(200).json({})
   } catch (error: any) {
     res
       .status(400)

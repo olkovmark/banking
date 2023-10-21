@@ -47,9 +47,7 @@ export const SignInPage = ({
         <Button isActive={submitIsActive} onClick={submitHandler}>
           Continue
         </Button>
-        {isAlert && (
-          <Alert message="A user with the same name is already exist" />
-        )}
+        {isAlert && <Alert message={isAlert} />}
       </PageContent>
     </div>
   );

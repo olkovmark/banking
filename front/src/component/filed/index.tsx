@@ -82,12 +82,13 @@ export const Field = ({
       }
 
     setValid(valid);
+    return valid;
   };
 
   const handlerChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value: string = e.target.value;
 
-    checkValid(value);
+    const valid = checkValid(value);
     setValue(value);
 
     if (handler)
