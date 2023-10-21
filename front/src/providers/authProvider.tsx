@@ -1,8 +1,13 @@
-import { createContext, useReducer } from "react";
+import { stat } from "fs";
+import { Dispatch, createContext, useReducer } from "react";
 
 interface AuthState {
   token: string | null;
-  user: string | null;
+  user: User | null;
+}
+interface User {
+  email: string;
+  isConfirm: boolean;
 }
 
 const initialState: AuthState = {
@@ -10,34 +15,49 @@ const initialState: AuthState = {
   user: null,
 };
 
-enum AUTH_TYPES {
+const AUTH_KEY = "AUTH_KEY";
+
+export enum AUTH_TYPES {
   LOGIN = "LOGIN",
   LOGOUT = "LOGOUT",
 }
 
 type AuthAction =
-  | { type: typeof AUTH_TYPES.LOGIN; token: string; user: string }
+  | { type: typeof AUTH_TYPES.LOGIN; token: string; user: User }
   | { type: typeof AUTH_TYPES.LOGOUT };
 
 function authReducer(state: AuthState, action: AuthAction): AuthState {
   switch (action.type) {
     case AUTH_TYPES.LOGIN:
-      return { ...state };
+      localStorage.setItem(
+        AUTH_KEY,
+        JSON.stringify({ token: action.token, user: action.user })
+      );
+      return { ...state, token: action.token, user: action.user };
 
     case AUTH_TYPES.LOGOUT:
-      return { ...state };
+      localStorage.removeItem(AUTH_KEY);
+      return { ...initialState };
   }
 }
+interface AuthContextProps {
+  state: AuthState;
+  dispatch: Dispatch<AuthAction>;
+}
+
+export const AuthContext = createContext<AuthContextProps>({
+  state: initialState,
+  dispatch: function (value: AuthAction): void {
+    return;
+  },
+});
 
 export const AuthProvider = ({ children }: any) => {
-  const AuthContext = createContext<any>(null);
-  const [state, dispatch] = useReducer(authReducer, initialState);
-  //  const login = (token: any, user: any): void => {
-  //   dispatch({ type: AUTH_TYPES.LOGIN, token, user });
-  // };
-  //  const logout = (): void => {
-  //   dispatch({ type: AUTH_TYPES.LOGOUT });
-  // };
+  const storedData = localStorage.getItem(AUTH_KEY);
+  const initialData = storedData ? JSON.parse(storedData) : initialState;
+
+  const [state, dispatch] = useReducer(authReducer, initialData);
+  console.log(state);
 
   return (
     <AuthContext.Provider value={{ state, dispatch }}>

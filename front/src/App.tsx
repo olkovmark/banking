@@ -1,10 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { WellcomePage as WellcomePage } from "./page/welcome";
-import { SignInPage } from "./page/sign-in";
 import { AuthProvider } from "./providers/authProvider";
 import { AuthRoute } from "./routes/AuthRoute";
 import { PrivateRoute } from "./routes/PrivateRoute";
-import { SignUpPage } from "./page/sign-up";
 import { BalancePage } from "./page/balance";
 import { ErrorPage } from "./page/error";
 import { RecivePage } from "./page/recive";
@@ -13,8 +11,11 @@ import { RecoveryConfirmPage } from "./page/recovery-confirm";
 import { SendPage } from "./page/send";
 import { SettingsPage } from "./page/settings";
 import { TransactionPage } from "./page/transaction";
-import { SignUpConfirmPage } from "./page/sign-up-confirm";
+
 import { NotificationsPage } from "./page/notifications";
+import { SignIn } from "./container/sign-in";
+import { SignUp } from "./container/sign-up";
+import { SignUpConfirm } from "./container/sign-up-confirm";
 
 function App() {
   return (
@@ -33,7 +34,7 @@ function App() {
             path="/signup"
             element={
               <AuthRoute>
-                <SignUpPage />
+                <SignUp />
               </AuthRoute>
             }
           />
@@ -41,7 +42,7 @@ function App() {
             path="/signup-confirm"
             element={
               <PrivateRoute>
-                <SignUpConfirmPage />
+                <SignUpConfirm />
               </PrivateRoute>
             }
           />
@@ -49,7 +50,7 @@ function App() {
             path="/signin"
             element={
               <AuthRoute>
-                <SignInPage />
+                <SignIn />
               </AuthRoute>
             }
           />

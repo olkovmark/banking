@@ -8,6 +8,7 @@
   font-size: 16px;
   font-weight: 500;
   padding: 20px;
+  opacity: 0.2;
 }
 
 .button--outside {
@@ -15,4 +16,15 @@
   color: var(--color);
   background: none;
   border: 1px solid var(--color);
+}
+.button--active {
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+
+.button--active:hover {
+  opacity: 0.5;
+}
+.button--active:active {
+  opacity: 0.2;
 }

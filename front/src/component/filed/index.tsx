@@ -1,4 +1,4 @@
-import { ChangeEvent, ChangeEventHandler, useMemo, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import "./index.css";
 import { emailRegex, passwordRegex } from "../../utils/regex";
 import eye from "../../assets/svg/Eye.svg";
@@ -16,7 +16,7 @@ enum validStatus {
   VALID,
   INVALID,
 }
-type handlerFieldData = {
+export type handlerFieldData = {
   isValid: boolean;
   value: string;
 };
@@ -26,6 +26,7 @@ type fieldProps = {
   type?: filedTypes;
   placeholder?: string;
   optional?: boolean;
+  defaultValue?: string;
   handler?: (data: handlerFieldData) => void;
 };
 
@@ -34,45 +35,66 @@ export const Field = ({
   type = "text",
   optional = false,
   placeholder,
+  defaultValue = "",
   handler,
 }: fieldProps) => {
   const [valid, setValid] = useState<validStatus>(validStatus.DEFAULT);
-  const [value, setValue] = useState<string>("");
+  const [value, setValue] = useState<string>(defaultValue);
   const [visibility, setVisibility] = useState(false);
+
+  useEffect(() => {
+    if (defaultValue) {
+      checkValid(defaultValue);
+      if (handler) {
+        handler({
+          isValid: valid !== validStatus.INVALID ? true : false,
+          value,
+        });
+      }
+    }
+  }, [defaultValue]);
 
   const handlerVisibility = () => {
     setVisibility((prev) => !prev);
   };
 
-  useMemo(() => {
+  const checkValid = (value: string) => {
+    let valid;
+    if (!value) {
+      valid = optional ? validStatus.DEFAULT : validStatus.INVALID;
+    } else
+      switch (type) {
+        case "email":
+          valid = emailRegex.test(value)
+            ? validStatus.VALID
+            : validStatus.INVALID;
+
+          break;
+        case "password":
+          valid = passwordRegex.test(value)
+            ? validStatus.VALID
+            : validStatus.INVALID;
+
+          break;
+        default:
+          valid = validStatus.VALID;
+          break;
+      }
+
+    setValid(valid);
+  };
+
+  const handlerChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value: string = e.target.value;
+
+    checkValid(value);
+    setValue(value);
+
     if (handler)
       handler({
         isValid: valid !== validStatus.INVALID ? true : false,
         value,
       });
-  }, [value, valid]);
-
-  const handlerChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value: string = e.target.value;
-    setValue(value);
-    if (!value) {
-      return setValid(optional ? validStatus.DEFAULT : validStatus.INVALID);
-    }
-    switch (type) {
-      case "email":
-        setValid(
-          emailRegex.test(value) ? validStatus.VALID : validStatus.INVALID
-        );
-        break;
-      case "password":
-        setValid(
-          passwordRegex.test(value) ? validStatus.VALID : validStatus.INVALID
-        );
-        break;
-      default:
-        setValid(validStatus.VALID);
-        break;
-    }
   };
 
   return (

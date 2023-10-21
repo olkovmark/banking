@@ -8,25 +8,48 @@ import { Button } from "../../component/button";
 import { QuestionRedirect } from "../../component/question-redirect";
 import { Alert } from "../../component/alert";
 
-const emailHandler = (data: any) => {
-  console.log(data);
+type SignInPageType = {
+  emailHandler: any;
+  passwordHandler: any;
+  submitHandler: any;
+  submitIsActive: any;
+  isAlert: any;
 };
-
-export const SignInPage = () => {
+export const SignInPage = ({
+  emailHandler,
+  passwordHandler,
+  submitHandler,
+  submitIsActive,
+  isAlert,
+}: SignInPageType) => {
   return (
     <div className="page">
       <PageContent>
         <Header />
         <PageTitle title="Sign in" subTitle="Choose a registration method" />
-        <Field name="Email" handler={emailHandler} type="email" />
-        <Field name="Password" type="password" />
+        <Field
+          defaultValue="123@ga.com"
+          name="Email"
+          handler={emailHandler}
+          type="email"
+        />
+        <Field
+          defaultValue="qwertyW123"
+          name="Password"
+          handler={passwordHandler}
+          type="password"
+        />
         <QuestionRedirect
           question=" Forgot your password?"
           redirectText="Restore"
           redirectTo="/recovery"
         />
-        <Button>Continue</Button>
-        <Alert message="A user with the same name is already exist" />
+        <Button isActive={submitIsActive} onClick={submitHandler}>
+          Continue
+        </Button>
+        {isAlert && (
+          <Alert message="A user with the same name is already exist" />
+        )}
       </PageContent>
     </div>
   );
