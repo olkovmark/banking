@@ -73,5 +73,28 @@ export const getBalance = async (token: string) => {
   });
 
   if (res.ok) return await res.json();
-  throw await res;
+  throw res;
+};
+
+export const getTransactions = async (token: string) => {
+  const res = await fetch(url + "/transactions", {
+    method: "GET",
+    headers: {
+      Authorization: token,
+    },
+  });
+
+  if (res.ok) return await res.json();
+  throw res;
+};
+export const getTransactionItem = async (token: string, id: number) => {
+  const res = await fetch(url + "/transaction?id=" + id, {
+    method: "GET",
+    headers: {
+      Authorization: token,
+    },
+  });
+
+  if (res.ok) return await res.json();
+  throw res;
 };

@@ -10,6 +10,7 @@ import { Navigate } from "react-router-dom";
 export const Balance = () => {
   const { state, dispatch } = useContext(AuthContext);
   const [nav, setNav] = useState("");
+  const [amount, setAmount] = useState(0);
 
   const handlerSettings = () => {
     console.log("handler");
@@ -28,7 +29,7 @@ export const Balance = () => {
   }, []);
 
   const logout = () => {
-    return setNav("/");
+    setNav("/");
     dispatch({
       type: AUTH_TYPES.LOGOUT,
     });
@@ -38,6 +39,9 @@ export const Balance = () => {
     if (!state.token) return logout();
     try {
       const res = await getBalance(state.token);
+      if (!res?.count) return;
+
+      setAmount(res.count);
     } catch (error: any) {
       if (error?.status === 401) return logout();
     }
@@ -51,7 +55,7 @@ export const Balance = () => {
         handlerSettings={handlerSettings}
         handlerNotification={handlerNotification}
       />
-      <span className="balance__amount">100 $</span>
+      <span className="balance__amount">{amount} $</span>
       <BalanceActions handlerRecive={handlerRecive} handlerSend={handlerSend} />
     </div>
   );

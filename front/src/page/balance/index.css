@@ -1,2 +1,5 @@
-.transaction__list {
+.balance__page {
+  display: flex;
+  flex-direction: column;
+  gap: 70px;
 }

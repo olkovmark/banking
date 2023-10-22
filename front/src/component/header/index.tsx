@@ -8,7 +8,12 @@ export const Header = ({ title }: { title?: string }) => {
 
   return (
     <div className="header">
-      <img onClick={() => navigate(-1)} src={back} alt="back" />
+      <img
+        className="click"
+        onClick={() => navigate(-1)}
+        src={back}
+        alt="back"
+      />
       <h3>{title}</h3>
     </div>
   );

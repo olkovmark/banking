@@ -1,14 +1,45 @@
 import express = require('express')
 import { User } from '../class/User'
 import { Session } from '../class/Session'
+import { Transaction } from '../class/Transaction'
 export const AuthRouter = express.Router()
 
-const user1 = User.create('123@ga.com', 'qwertyW123')
-user1.isEmailValid = true
+const test_init = () => {
+  const user1 = User.create(
+    '123@ga.com',
+    'qwertyW123',
+    'Username',
+  )
+  user1
+  user1.isEmailValid = true
+  user1.cash = 150
 
-Session.sessions.push(
-  new Session('qttRwouYpu', '123@ga.com'),
-)
+  const user2 = User.create(
+    'Usern2@ga.com',
+    'qwertyW123',
+    'USER2',
+  )
+  user2
+  user2.isEmailValid = true
+  user2.cash = 110
+
+  Array(3)
+    .fill(10)
+    .forEach((v) => {
+      Transaction.create(12341, user1.id, user2.id)
+    })
+  Array(3)
+    .fill(10)
+    .forEach((v) => {
+      Transaction.create(12341, user2.id, user1.id)
+    })
+
+  Session.sessions.push(
+    new Session('EeItWOeEtw', '123@ga.com'),
+  )
+}
+
+test_init()
 
 AuthRouter.post('/signin', (req, res) => {
   const { email, password } = req.body
@@ -44,7 +75,11 @@ AuthRouter.post('/signup', (req, res) => {
       .json({ message: 'Email or password not found' })
 
   try {
-    const user = User.create(email, password)
+    const user = User.create(
+      email,
+      password,
+      'TestUsername',
+    )
     if (!user) throw { message: 'error' }
     const session = Session.add(user.email)
 

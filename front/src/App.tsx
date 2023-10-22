@@ -17,6 +17,7 @@ import { SignUp } from "./container/sign-up";
 import { SignUpConfirm } from "./container/sign-up-confirm";
 import { Recovery } from "./container/recovery";
 import { RecoveryConfirm } from "./container/recovery-confirm";
+import { Transaction } from "./container/transaction";
 
 function App() {
   return (
@@ -112,10 +113,10 @@ function App() {
             }
           />
           <Route
-            path="/transaction/:transactionId"
+            path="/transaction/:id"
             element={
               <PrivateRoute>
-                <TransactionPage />
+                <Transaction />
               </PrivateRoute>
             }
           />
