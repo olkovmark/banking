@@ -12,16 +12,16 @@ const test_init = () => {
   )
   user1
   user1.isEmailValid = true
-  user1.cash = 150
+  user1.cash = 25
 
   const user2 = User.create(
-    'Usern2@ga.com',
+    '124@ga.com',
     'qwertyW123',
     'USER2',
   )
   user2
   user2.isEmailValid = true
-  user2.cash = 110
+  user2.cash = 11000
 
   Array(3)
     .fill(10)
@@ -35,7 +35,7 @@ const test_init = () => {
     })
 
   Session.sessions.push(
-    new Session('EeItWOeEtw', '123@ga.com'),
+    new Session('RIqyqIpeeU', '123@ga.com'),
   )
 }
 

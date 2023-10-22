@@ -71,6 +71,44 @@ BalanceRouter.get('/transaction', (req: any, res) => {
   }
 })
 
+BalanceRouter.post('/send', (req: any, res) => {
+  const userEmail = req.email
+  const { email, sum } = req.body
+  try {
+    if (!userEmail || !email || !sum) throw 'Not Data'
+
+    if (userEmail === email)
+      throw "You can't choose yourself"
+
+    const initUser = User.getUser(userEmail)
+
+    if (!initUser) throw 'Error'
+
+    if (initUser.cash < sum) throw 'Not enough money'
+
+    const targetUser = User.getUser(email)
+    if (!targetUser) throw 'User not found'
+
+    initUser.cash -= sum
+    targetUser.cash += sum
+
+    const { id } = Transaction.create(
+      sum,
+      initUser.id,
+      targetUser.id,
+    )
+
+    const data = { id }
+    res.status(200).json({
+      data,
+    })
+  } catch (error: any) {
+    res.status(400).json({
+      message: error.message || error || 'Error',
+    })
+  }
+})
+
 function getTransactionsFormat(user: User): any[] {
   const transactions = Transaction.getUserTransactions(
     user.id,

@@ -45,6 +45,7 @@ export function formatMoney(number: number): string {
 
   const numberString = number.toString();
 
+  if (numberString.length === 2) return `0.${numberString}`;
   if (numberString.length < 2) {
     return `0.0${numberString}`;
   } else {

@@ -46,7 +46,7 @@ export const TransactionList = () => {
   if (nav) return <Navigate to={nav} />;
 
   return (
-    <List>
+    <List style={{ padding: "20px" }}>
       {transactions?.map((item) => {
         return (
           <TransactionItem

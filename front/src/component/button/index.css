@@ -1,14 +1,20 @@
 .button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   --color: var(--color-primary);
+  padding: 20px;
   border-radius: 12px;
   background: var(--color);
   width: 100%;
   color: white;
-  text-align: center;
+
   font-size: 16px;
   font-weight: 500;
-  padding: 20px;
+
   opacity: 0.2;
+  cursor: pointer;
 }
 
 .button--outside {

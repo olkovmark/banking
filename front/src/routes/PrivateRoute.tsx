@@ -4,8 +4,8 @@ import { Navigate } from "react-router-dom";
 
 export const PrivateRoute = ({ children }: any) => {
   const { state, dispatch } = useContext(AuthContext);
-  const [nav, setNav] = useState("");
 
-  if (!state.token) return <Navigate to={nav} />;
+  if (!state.token) return <Navigate to={"/"} />;
+  if (!state.user?.isConfirm) return <Navigate to="/signup-confirm" />;
   return <div>{children}</div>;
 };

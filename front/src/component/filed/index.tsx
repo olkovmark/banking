@@ -1,14 +1,15 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import "./index.css";
-import { emailRegex, passwordRegex } from "../../utils/regex";
+import { emailRegex, moneyRegex, passwordRegex } from "../../utils/regex";
 import eye from "../../assets/svg/Eye.svg";
 import eyeHide from "../../assets/svg/eye-hide.svg";
-type filedTypes = "text" | "email" | "password";
+type filedTypes = "text" | "email" | "password" | "money";
 
 const alertDescription: { [key in filedTypes]: any } = {
   text: "",
   email: "Sorry, email is wrong",
   password: "Sorry, the password is too simple",
+  money: "Sorry, sum is wrong",
 };
 
 enum validStatus {
@@ -76,6 +77,12 @@ export const Field = ({
             : validStatus.INVALID;
 
           break;
+        case "money":
+          valid = moneyRegex.test(value)
+            ? validStatus.VALID
+            : validStatus.INVALID;
+
+          break;
         default:
           valid = validStatus.VALID;
           break;
@@ -106,6 +113,7 @@ export const Field = ({
           valid === validStatus.VALID && "input--valid"
         }   ${valid === validStatus.INVALID && "input--not-valid"}`}
       >
+        {type === "money" && <span className="field__money">$</span>}
         <input
           className="field__input"
           onChange={(e) => {

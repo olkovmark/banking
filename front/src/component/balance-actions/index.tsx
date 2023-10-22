@@ -12,13 +12,19 @@ export const BalanceActions = ({
 }) => {
   return (
     <div className="balance__actions">
-      <img
-        onClick={handlerRecive}
-        className="click"
-        src={reciveImg}
-        alt="recive"
-      />
-      <img onClick={handlerSend} className="click" src={sendImg} alt="send" />
+      <div className="balance__actions__item">
+        <img
+          onClick={handlerRecive}
+          className="click"
+          src={reciveImg}
+          alt="recive"
+        />
+        <span>Receive</span>
+      </div>
+      <div className="balance__actions__item">
+        <img onClick={handlerSend} className="click" src={sendImg} alt="send" />
+        <span>Send</span>
+      </div>
     </div>
   );
 };

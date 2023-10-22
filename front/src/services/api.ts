@@ -25,6 +25,42 @@ export const Registration = async (email: string, password: string) => {
   throw await res.json();
 };
 
+export const ChangeEmailApi = async (
+  token: string,
+  email: string,
+  password: string
+) => {
+  const res = await fetch(url + "/change-email", {
+    method: "POST",
+    body: JSON.stringify({ email, password }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token,
+    },
+  });
+
+  if (res.ok) return await res.json();
+  throw await res.json();
+};
+
+export const ChangePasswordApi = async (
+  token: string,
+  newPassword: string,
+  oldPassword: string
+) => {
+  const res = await fetch(url + "/change-password", {
+    method: "POST",
+    body: JSON.stringify({ newPassword, oldPassword }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token,
+    },
+  });
+
+  if (res.ok) return await res.json();
+  throw await res.json();
+};
+
 export const SendCode = async (email: string, code: string) => {
   const res = await fetch(url + "/signup-confirm", {
     method: "POST",
@@ -84,9 +120,11 @@ export const getTransactions = async (token: string) => {
     },
   });
 
-  if (res.ok) return await res.json();
-  throw res;
+  const data = await res.json();
+  if (res.ok) return data;
+  throw { status: res.status, message: data.message };
 };
+
 export const getTransactionItem = async (token: string, id: number) => {
   const res = await fetch(url + "/transaction?id=" + id, {
     method: "GET",
@@ -95,6 +133,22 @@ export const getTransactionItem = async (token: string, id: number) => {
     },
   });
 
-  if (res.ok) return await res.json();
-  throw res;
+  const data = await res.json();
+  if (res.ok) return data;
+  throw { status: res.status, message: data.message };
+};
+
+export const sendMoney = async (token: string, sum: number, email: string) => {
+  const res = await fetch(url + "/send", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token,
+    },
+    body: JSON.stringify({ email, sum }),
+  });
+
+  const data = await res.json();
+  if (res.ok) return data;
+  throw { status: res.status, message: data.message };
 };

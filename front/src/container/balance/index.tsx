@@ -1,11 +1,12 @@
 import "./index.css";
 
-import { MouseEvent, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BalanceHeader } from "../../component/balance-header";
 import { BalanceActions } from "../../component/balance-actions";
 import { getBalance } from "../../services/api";
 import { AUTH_TYPES, AuthContext } from "../../providers/authProvider";
 import { Navigate } from "react-router-dom";
+import { formatMoney } from "../../utils/formats";
 
 export const Balance = () => {
   const { state, dispatch } = useContext(AuthContext);
@@ -13,16 +14,16 @@ export const Balance = () => {
   const [amount, setAmount] = useState(0);
 
   const handlerSettings = () => {
-    console.log("handler");
+    setNav("/settings");
   };
   const handlerNotification = () => {
-    console.log("handler");
+    setNav("/notifications");
   };
   const handlerRecive = () => {
-    console.log("handler");
+    setNav("/recive");
   };
   const handlerSend = () => {
-    console.log("handler");
+    setNav("/send");
   };
   useEffect(() => {
     getData();
@@ -55,7 +56,7 @@ export const Balance = () => {
         handlerSettings={handlerSettings}
         handlerNotification={handlerNotification}
       />
-      <span className="balance__amount">{amount} $</span>
+      <span className="balance__amount">{formatMoney(amount)} $</span>
       <BalanceActions handlerRecive={handlerRecive} handlerSend={handlerSend} />
     </div>
   );

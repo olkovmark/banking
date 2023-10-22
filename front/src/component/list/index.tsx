@@ -1,5 +1,9 @@
 import "./index.css";
 
-export const List = ({ children }: any) => {
-  return <div className="list">{children}</div>;
+export const List = ({ children, style }: any) => {
+  return (
+    <div className="list" style={style}>
+      {children}
+    </div>
+  );
 };

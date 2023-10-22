@@ -14,7 +14,6 @@
   --size: 14px;
   font-size: var(--size);
   color: var(--color-alert);
-  min-height: var(--size);
 }
 
 .field__input {
@@ -33,4 +32,8 @@
 }
 .input--not-valid {
   border-color: var(--color-alert);
+}
+
+.field__money {
+  align-self: center;
 }

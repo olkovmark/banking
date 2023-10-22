@@ -21,14 +21,14 @@ export class Transaction {
     amount: number,
     from_id: number,
     to_id: number,
-  ) {
+  ): Transaction {
     const transaction = new Transaction(
       amount,
       from_id,
       to_id,
     )
 
-    this.list.push(transaction)
+    this.list.unshift(transaction)
 
     return transaction
   }

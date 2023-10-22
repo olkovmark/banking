@@ -7,9 +7,7 @@ export const BalancePage = () => {
   return (
     <div className="page balance__page">
       <Balance />
-      <PageContent>
-        <TransactionList />
-      </PageContent>
+      <TransactionList />
     </div>
   );
 };
