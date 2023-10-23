@@ -39,7 +39,7 @@ export class Transaction {
     return t || null
   }
 
-  static getUserTransactions(id: number): Transaction[] {
+  static getTransactions(id: number): Transaction[] {
     return this.list.filter(
       (v) => v.from_id === id || v.to_id === id,
     )

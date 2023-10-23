@@ -1,5 +1,6 @@
 import { GenerateCode } from '../utils/Generators'
 import fs = require('fs')
+import { Wallet } from './Wallet'
 
 export interface Transaction {
   id: number
@@ -8,21 +9,21 @@ export interface Transaction {
   date: Date
 }
 
-export class User {
-  private static list: User[] = []
+export class User extends Wallet {
   public isEmailValid = false
   private emailCode: string | null = null
   private passwordCode: string | null = null
   public img: string = ''
-  public cash: number = 0
+
   public transactions: Transaction[] = []
-  private static id = 0
+
   constructor(
-    public id: number,
     public email: string,
     public password: string,
     public username: string,
-  ) {}
+  ) {
+    super()
+  }
 
   generateEmailCode(): string {
     this.emailCode = GenerateCode('1234567890', 4)
@@ -52,17 +53,27 @@ export class User {
     this.img = imgData
   }
 
-  static getUser(email: string) {
-    return this.list.find((v) => v.email === email) || null
-  }
-  static getUserById(id: number) {
-    return this.list.find((v) => v.id === id) || null
+  static getUser(email: string): User | null {
+    const user =
+      this.list.find(
+        (v) => v instanceof User && v.email === email,
+      ) || null
+
+    return user instanceof User ? user : null
   }
 
-  static getUserByCode(code: string) {
-    return (
-      this.list.find((v) => v.passwordCode === code) || null
-    )
+  static getUserById(id: number): User | null {
+    const user = this.list.find((v) => v.id === id) || null
+    return user instanceof User ? user : null
+  }
+
+  static getUserByCode(code: string): User | null {
+    const user =
+      this.list.find(
+        (v) => v instanceof User && v.passwordCode === code,
+      ) || null
+
+    return user instanceof User ? user : null
   }
 
   static create(
@@ -75,12 +86,7 @@ export class User {
         'A user with the same name is already exist',
       )
 
-    const user = new User(
-      this.id++,
-      email,
-      password,
-      username,
-    )
+    const user = new User(email, password, username)
     try {
       const image = fs.readFileSync(
         'store/icons/human.svg',
@@ -92,3 +98,5 @@ export class User {
     return user
   }
 }
+
+export default User

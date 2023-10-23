@@ -1,11 +1,11 @@
-import { MouseEvent, useContext, useState } from "react";
+import { useContext, useState } from "react";
 
 import { Field, handlerFieldData } from "../../component/filed";
-import { ChangePasswordApi, receiveMoney } from "../../services/api";
-import { AUTH_TYPES, AuthContext } from "../../providers/authProvider";
-import { Navigate } from "react-router-dom";
+import { receiveMoney } from "../../services/api";
+import { AuthContext } from "../../providers/authProvider";
+
 import { Alert } from "../../component/alert";
-import { Button } from "../../component/button";
+
 import { Header } from "../../component/header";
 import { Divider } from "../../component/divider";
 import { Logout } from "../logout";
@@ -21,14 +21,15 @@ export const Recive = () => {
     ok: false,
     message: "",
   });
-  const isActive = sum?.isValid || false;
+  const isActive = sum?.isValid;
 
   const submitHandler = async (id: number) => {
-    if (!isActive || !sum?.value) return;
+    setAlert({ ok: false, message: "" });
+    if (!isActive || !sum?.value)
+      return setAlert({ ok: false, message: "Entry sum" });
     if (!state.token) return setIsLogout(true);
     try {
       const value = sum.value;
-
       const amount = Number(
         value.match("\\.") ? value.replace(".", "") : value + "00"
       );
@@ -50,7 +51,7 @@ export const Recive = () => {
     <>
       <Header title="Receive" />
       <h3 className="settings__title">Receive amount</h3>
-      <Field name="" type="money"></Field>
+      <Field name="" type="money" handler={setSum}></Field>
 
       <Divider />
       <h3 className="settings__title">Payment system</h3>
@@ -82,10 +83,10 @@ const PAYMENTS: {
     img: "assets/svg/logo-S.svg",
     sub: [
       { id: 0, src: "assets/svg/logo-1.svg" },
-      { id: 0, src: "assets/svg/logo-2.svg" },
-      { id: 0, src: "assets/svg/logo-3.svg" },
-      { id: 0, src: "assets/svg/logo-4.svg" },
-      { id: 0, src: "assets/svg/logo-5.svg" },
+      { id: 1, src: "assets/svg/logo-2.svg" },
+      { id: 2, src: "assets/svg/logo-3.svg" },
+      { id: 3, src: "assets/svg/logo-4.svg" },
+      { id: 4, src: "assets/svg/logo-5.svg" },
     ],
   },
   {
@@ -94,10 +95,10 @@ const PAYMENTS: {
     img: "assets/svg/logo-C.svg",
     sub: [
       { id: 0, src: "assets/svg/logo-2.svg" },
-      { id: 0, src: "assets/svg/logo-4.svg" },
-      { id: 0, src: "assets/svg/logo-5.svg" },
-      { id: 0, src: "assets/svg/logo-1.svg" },
-      { id: 0, src: "assets/svg/logo-3.svg" },
+      { id: 1, src: "assets/svg/logo-4.svg" },
+      { id: 2, src: "assets/svg/logo-5.svg" },
+      { id: 3, src: "assets/svg/logo-1.svg" },
+      { id: 4, src: "assets/svg/logo-3.svg" },
     ],
   },
 ];

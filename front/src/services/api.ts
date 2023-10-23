@@ -157,7 +157,7 @@ export const receiveMoney = async (
   sum: number,
   system: number
 ) => {
-  const res = await fetch(url + "/send", {
+  const res = await fetch(url + "/receive", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

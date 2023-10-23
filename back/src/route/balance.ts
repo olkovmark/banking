@@ -4,6 +4,8 @@ import {
   TRANSACTION_TYPE,
   Transaction,
 } from '../class/Transaction'
+import { PaymentSystem } from '../class/PaymentSystem'
+import { Wallet } from '../class/Wallet'
 export const BalanceRouter = express.Router()
 
 BalanceRouter.get('/balance', (req: any, res) => {
@@ -109,10 +111,44 @@ BalanceRouter.post('/send', (req: any, res) => {
   }
 })
 
+BalanceRouter.post('/receive', (req: any, res) => {
+  const userEmail = req.email
+
+  const { system, sum } = req.body
+  try {
+    if (!userEmail || !sum || !String(system))
+      throw 'Not Data'
+
+    const initUser = User.getUser(userEmail)
+
+    if (!initUser) throw 'Error'
+
+    const paymentSystem = PaymentSystem.get(system)
+    if (!paymentSystem) throw 'System not found'
+
+    paymentSystem.cash -= sum
+    initUser.cash += sum
+
+    const { id } = Transaction.create(
+      sum,
+      paymentSystem.id,
+      initUser.id,
+    )
+
+    const data = { id }
+    res.status(200).json({
+      data,
+    })
+  } catch (error: any) {
+    res.status(400).json({
+      message: error.message || error || 'Error',
+    })
+  }
+})
+
 function getTransactionsFormat(user: User): any[] {
-  const transactions = Transaction.getUserTransactions(
-    user.id,
-  )
+  const transactions = Transaction.getTransactions(user.id)
+
   const transactionDTO: any[] = []
   transactions.forEach((tran) => {
     const format = transactionFormat(tran, user.id)
@@ -137,16 +173,25 @@ function transactionFormat(
           type: TRANSACTION_TYPE.RECIVE,
           targetID: transaction.from_id,
         }
-  const userT = User.getUserById(targetID)
-  if (!userT) return null
 
+  const wallet = Wallet.getById(targetID)
+  if (!wallet) return null
+
+  let username
+  let email
+  if (wallet instanceof User) {
+    username = wallet.username
+    email = wallet.email
+  } else {
+    username = wallet.name
+  }
   return {
     id: transaction.id,
     type,
-    email: userT.email,
+    email: email,
     amount: transaction.amount,
     date: transaction.date,
-    username: userT.username,
-    img: userT.img,
+    username: username,
+    img: wallet.img,
   }
 }

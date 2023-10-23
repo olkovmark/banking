@@ -2,38 +2,50 @@ import express = require('express')
 import { User } from '../class/User'
 import { Session } from '../class/Session'
 import { Transaction } from '../class/Transaction'
+import fs = require('fs')
+import { PaymentSystem } from '../class/PaymentSystem'
+import { Wallet } from '../class/Wallet'
 export const AuthRouter = express.Router()
 
 const test_init = () => {
+  const s1 = PaymentSystem.create('Stripe')
+  try {
+    const image = fs.readFileSync(
+      'store/icons/logo-S.svg',
+      'base64',
+    )
+    s1.setImg('data:image/svg+xml;base64, ' + image)
+  } catch (error) {}
+
+  s1.cash = Infinity
+  const s2 = PaymentSystem.create('Stripe')
+  s2.cash = Infinity
+
   const user1 = User.create(
     '123@ga.com',
     'qwertyW123',
     'Username',
   )
-  user1
+
   user1.isEmailValid = true
-  user1.cash = 25
 
   const user2 = User.create(
     '124@ga.com',
     'qwertyW123',
-    'USER2',
+    'Username',
   )
-  user2
+
+  Transaction.create(123, 0, 2)
+
   user2.isEmailValid = true
-  user2.cash = 11000
 
-  Array(3)
-    .fill(10)
-    .forEach((v) => {
-      Transaction.create(12341, user1.id, user2.id)
-    })
-  Array(3)
-    .fill(10)
-    .forEach((v) => {
-      Transaction.create(12341, user2.id, user1.id)
-    })
-
+  try {
+    const image = fs.readFileSync(
+      'store/icons/logo-C.svg',
+      'base64',
+    )
+    s2.setImg('data:image/svg+xml;base64, ' + image)
+  } catch (error) {}
   Session.sessions.push(
     new Session('RIqyqIpeeU', '123@ga.com'),
   )
