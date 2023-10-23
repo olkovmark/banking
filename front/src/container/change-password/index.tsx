@@ -54,18 +54,8 @@ export const ChangePassword = () => {
 
   return (
     <>
-      <Field
-        defaultValue="qwertyW123"
-        name="Old password"
-        handler={oldPasswordHandler}
-        type="password"
-      />
-      <Field
-        defaultValue="qwertyW123"
-        name="New password"
-        handler={newPasswordHandler}
-        type="password"
-      />
+      <Field name="Old password" handler={oldPasswordHandler} type="password" />
+      <Field name="New password" handler={newPasswordHandler} type="password" />
       <Button
         isOutside
         style={{ height: "46px" }}

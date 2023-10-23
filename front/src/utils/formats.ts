@@ -55,3 +55,19 @@ export function formatMoney(number: number): string {
     return formattedNumber;
   }
 }
+export function formatDateDifference(date: Date) {
+  const currentDate: Date = new Date();
+  const diff = currentDate.getTime() - date.getTime();
+
+  const minutesDiff = Math.floor(diff / (1000 * 60));
+  const hoursDiff = Math.floor(diff / (1000 * 60 * 60));
+  const daysDiff = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+  if (minutesDiff < 60) {
+    return `${minutesDiff} min. ago`;
+  } else if (hoursDiff < 24) {
+    return `${hoursDiff} hours ago`;
+  } else {
+    return `${daysDiff} days ago`;
+  }
+}

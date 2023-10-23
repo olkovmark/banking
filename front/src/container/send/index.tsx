@@ -53,12 +53,7 @@ export const Send = () => {
 
   return (
     <>
-      <Field
-        defaultValue="124@ga.com"
-        name="Email"
-        handler={emailHandler}
-        type="email"
-      />
+      <Field name="Email" handler={emailHandler} type="email" />
       <Field type="money" name="Sum" handler={sumHandler} />
       <Button
         style={{ height: "46px" }}

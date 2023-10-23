@@ -170,3 +170,16 @@ export const receiveMoney = async (
   if (res.ok) return data;
   throw { status: res.status, message: data.message };
 };
+
+export const getNotifications = async (token: string) => {
+  const res = await fetch(url + "/notifications", {
+    method: "GET",
+    headers: {
+      Authorization: token,
+    },
+  });
+
+  const data = await res.json();
+  if (res.ok) return data;
+  throw { status: res.status, message: data.message };
+};

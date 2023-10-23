@@ -27,18 +27,8 @@ export const SignInPage = ({
       <PageContent>
         <Header />
         <PageTitle title="Sign in" subTitle="Choose a registration method" />
-        <Field
-          defaultValue="123@ga.com"
-          name="Email"
-          handler={emailHandler}
-          type="email"
-        />
-        <Field
-          defaultValue="qwertyW123"
-          name="Password"
-          handler={passwordHandler}
-          type="password"
-        />
+        <Field name="Email" handler={emailHandler} type="email" />
+        <Field name="Password" handler={passwordHandler} type="password" />
         <QuestionRedirect
           question=" Forgot your password?"
           redirectText="Restore"

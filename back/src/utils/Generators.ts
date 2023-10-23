@@ -11,3 +11,9 @@ export const GenerateCode = (
   }
   return result
 }
+
+export function generateUniqueID() {
+  const timestamp = new Date().getTime()
+  const randomPart = Math.floor(Math.random() * 1000)
+  return `${timestamp}${randomPart}`
+}

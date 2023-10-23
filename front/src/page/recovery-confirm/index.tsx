@@ -30,12 +30,7 @@ export const RecoveryConfirmPage = ({
           subTitle="Write the code you received"
         />
         <Field name="Code" handler={codeHandler} />
-        <Field
-          defaultValue="qwertyW123"
-          name="New password"
-          handler={passwordHandler}
-          type="password"
-        />
+        <Field name="New password" handler={passwordHandler} type="password" />
         <QuestionRedirect
           question=" Forgot your password?"
           redirectText="Restore"

@@ -1,12 +1,20 @@
-import { GenerateCode } from '../utils/Generators'
+import {
+  GenerateCode,
+  generateUniqueID,
+} from '../utils/Generators'
 import fs = require('fs')
 import { Wallet } from './Wallet'
 
-export interface Transaction {
-  id: number
-  userID: number
-  amount: number
+export interface Notification {
+  id?: number
+  type: NOTIFICATION_TYPE
+  message: string
   date: Date
+}
+
+export enum NOTIFICATION_TYPE {
+  WARNING,
+  ANNOUNCEMENT,
 }
 
 export class User extends Wallet {
@@ -15,7 +23,7 @@ export class User extends Wallet {
   private passwordCode: string | null = null
   public img: string = ''
 
-  public transactions: Transaction[] = []
+  private notifications: Notification[] = []
 
   constructor(
     public email: string,
@@ -51,6 +59,14 @@ export class User extends Wallet {
 
   setImg(imgData: string) {
     this.img = imgData
+  }
+
+  addNotification(notification: Notification) {
+    notification.id = Number(generateUniqueID())
+    this.notifications.unshift(notification)
+  }
+  getNotifications() {
+    return [...this.notifications]
   }
 
   static getUser(email: string): User | null {

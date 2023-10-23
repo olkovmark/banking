@@ -1,57 +1,11 @@
 import express = require('express')
-import { User } from '../class/User'
+import { NOTIFICATION_TYPE, User } from '../class/User'
 import { Session } from '../class/Session'
 import { Transaction } from '../class/Transaction'
 import fs = require('fs')
 import { PaymentSystem } from '../class/PaymentSystem'
 import { Wallet } from '../class/Wallet'
 export const AuthRouter = express.Router()
-
-const test_init = () => {
-  const s1 = PaymentSystem.create('Stripe')
-  try {
-    const image = fs.readFileSync(
-      'store/icons/logo-S.svg',
-      'base64',
-    )
-    s1.setImg('data:image/svg+xml;base64, ' + image)
-  } catch (error) {}
-
-  s1.cash = Infinity
-  const s2 = PaymentSystem.create('Stripe')
-  s2.cash = Infinity
-
-  const user1 = User.create(
-    '123@ga.com',
-    'qwertyW123',
-    'Username',
-  )
-
-  user1.isEmailValid = true
-
-  const user2 = User.create(
-    '124@ga.com',
-    'qwertyW123',
-    'Username',
-  )
-
-  Transaction.create(123, 0, 2)
-
-  user2.isEmailValid = true
-
-  try {
-    const image = fs.readFileSync(
-      'store/icons/logo-C.svg',
-      'base64',
-    )
-    s2.setImg('data:image/svg+xml;base64, ' + image)
-  } catch (error) {}
-  Session.sessions.push(
-    new Session('RIqyqIpeeU', '123@ga.com'),
-  )
-}
-
-test_init()
 
 AuthRouter.post('/signin', (req, res) => {
   const { email, password } = req.body
@@ -68,6 +22,11 @@ AuthRouter.post('/signin', (req, res) => {
     const session = Session.add(user.email)
     const { isEmailValid: isConfirm } = user
 
+    user.addNotification({
+      type: NOTIFICATION_TYPE.ANNOUNCEMENT,
+      message: 'Login',
+      date: new Date(),
+    })
     res.status(200).json({
       token: session.code,
       user: { email, isConfirm },
@@ -124,6 +83,11 @@ AuthRouter.post('/signup-confirm', (req, res) => {
     if (!isValid) throw { message: 'Code error' }
     const { isEmailValid: isConfirm } = user
 
+    user.addNotification({
+      type: NOTIFICATION_TYPE.ANNOUNCEMENT,
+      message: 'Login',
+      date: new Date(),
+    })
     res.status(200).json({ user: { email, isConfirm } })
   } catch (error: any) {
     res
@@ -163,6 +127,11 @@ AuthRouter.post('/recovery-confirm', (req, res) => {
     const user = User.getUserByCode(code)
     if (!user) throw { message: 'Code error' }
     user.password = password
+    user.addNotification({
+      type: NOTIFICATION_TYPE.WARNING,
+      message: 'Restore email',
+      date: new Date(),
+    })
     res.status(200).json({})
   } catch (error: any) {
     res

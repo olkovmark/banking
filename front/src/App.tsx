@@ -1,23 +1,22 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { WellcomePage as WellcomePage } from "./page/welcome";
+import { WelcomePage as WelcomePage } from "./page/welcome";
 import { AuthProvider } from "./providers/authProvider";
 import { AuthRoute } from "./routes/AuthRoute";
 import { PrivateRoute } from "./routes/PrivateRoute";
 import { BalancePage } from "./page/balance";
 import { ErrorPage } from "./page/error";
-import { RecivePage } from "./page/recive";
 
 import { SendPage } from "./page/send";
 import { SettingsPage } from "./page/settings";
-import { TransactionPage } from "./page/transaction";
 
-import { NotificationsPage } from "./page/notifications";
 import { SignIn } from "./container/sign-in";
 import { SignUp } from "./container/sign-up";
 import { SignUpConfirm } from "./container/sign-up-confirm";
 import { Recovery } from "./container/recovery";
 import { RecoveryConfirm } from "./container/recovery-confirm";
 import { Transaction } from "./container/transaction";
+import { RecivePage } from "./page/recive";
+import { NotificationsPage } from "./page/notifications";
 
 function App() {
   return (
@@ -28,7 +27,7 @@ function App() {
             index
             element={
               <AuthRoute>
-                <WellcomePage />
+                <WelcomePage />
               </AuthRoute>
             }
           />

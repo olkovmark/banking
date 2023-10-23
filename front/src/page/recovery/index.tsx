@@ -27,12 +27,7 @@ export const RecoveryPage = ({
           title="Recover password"
           subTitle="Choose a recovery method"
         />
-        <Field
-          defaultValue="123@ga.com"
-          name="Email"
-          handler={emailHandler}
-          type="email"
-        />
+        <Field name="Email" handler={emailHandler} type="email" />
         <Button isActive={submitIsActive} onClick={submitHandler}>
           Send code
         </Button>

@@ -53,18 +53,8 @@ export const ChangeEmail = () => {
 
   return (
     <>
-      <Field
-        defaultValue="123@ga.com"
-        name="New email"
-        handler={emailHandler}
-        type="email"
-      />
-      <Field
-        defaultValue="qwertyW123"
-        name="Password"
-        handler={passwordHandler}
-        type="password"
-      />
+      <Field name="New email" handler={emailHandler} type="email" />
+      <Field name="Password" handler={passwordHandler} type="password" />
       <Button
         style={{ height: "46px" }}
         isOutside

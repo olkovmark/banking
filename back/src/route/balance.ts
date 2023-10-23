@@ -1,5 +1,5 @@
 import express = require('express')
-import { User } from '../class/User'
+import { NOTIFICATION_TYPE, User } from '../class/User'
 import {
   TRANSACTION_TYPE,
   Transaction,
@@ -101,6 +101,18 @@ BalanceRouter.post('/send', (req: any, res) => {
     )
 
     const data = { id }
+
+    initUser.addNotification({
+      type: NOTIFICATION_TYPE.ANNOUNCEMENT,
+      message: 'Send money',
+      date: new Date(),
+    })
+    targetUser.addNotification({
+      type: NOTIFICATION_TYPE.ANNOUNCEMENT,
+      message: 'Receive money',
+      date: new Date(),
+    })
+
     res.status(200).json({
       data,
     })
@@ -134,6 +146,12 @@ BalanceRouter.post('/receive', (req: any, res) => {
       paymentSystem.id,
       initUser.id,
     )
+
+    initUser.addNotification({
+      type: NOTIFICATION_TYPE.ANNOUNCEMENT,
+      message: 'Receive money',
+      date: new Date(),
+    })
 
     const data = { id }
     res.status(200).json({
