@@ -8,7 +8,7 @@ export const WellcomePage = () => {
   const registration = () => {};
 
   return (
-    <div className="page">
+    <div className="page welcome ">
       <div className="background__img"></div>
       <PageContent isBetween>
         <div className="heading">

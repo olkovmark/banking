@@ -5,9 +5,11 @@ import { PageContent } from "../../component/page-content";
 
 export const SendPage = () => {
   return (
-    <PageContent gap="12px">
-      <Header title="Send" />
-      <Send />
-    </PageContent>
+    <div className="page">
+      <PageContent gap="12px">
+        <Header title="Send" />
+        <Send />
+      </PageContent>
+    </div>
   );
 };

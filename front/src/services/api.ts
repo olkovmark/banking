@@ -152,3 +152,21 @@ export const sendMoney = async (token: string, sum: number, email: string) => {
   if (res.ok) return data;
   throw { status: res.status, message: data.message };
 };
+export const receiveMoney = async (
+  token: string,
+  sum: number,
+  system: number
+) => {
+  const res = await fetch(url + "/send", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token,
+    },
+    body: JSON.stringify({ system, sum }),
+  });
+
+  const data = await res.json();
+  if (res.ok) return data;
+  throw { status: res.status, message: data.message };
+};

@@ -13,22 +13,24 @@ export const SettingsPage = () => {
   const [isLogout, setIsLogout] = useState<boolean>(false);
   if (isLogout) return <Logout />;
   return (
-    <PageContent gap="12px">
-      <Header title="Settings" />
-      <h3 className="settings__title">Change email</h3>
-      <ChangeEmail />
-      <Divider />
-      <h3 className="settings__title">Change password</h3>
-      <ChangePassword />
-      <Divider />
-      <Button
-        style={{ height: "46px" }}
-        onClick={() => setIsLogout(true)}
-        isOutside
-        color="#F23152"
-      >
-        Log out
-      </Button>
-    </PageContent>
+    <div className="page">
+      <PageContent gap="12px">
+        <Header title="Settings" />
+        <h3 className="settings__title">Change email</h3>
+        <ChangeEmail />
+        <Divider />
+        <h3 className="settings__title">Change password</h3>
+        <ChangePassword />
+        <Divider />
+        <Button
+          style={{ height: "46px" }}
+          onClick={() => setIsLogout(true)}
+          isOutside
+          color="#F23152"
+        >
+          Log out
+        </Button>
+      </PageContent>
+    </div>
   );
 };
