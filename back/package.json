@@ -2,8 +2,9 @@
   "name": "sass",
   "version": "1.0.0",
   "scripts": {
+    "build": "tsc",
     "dev": "nodemon --exec ts-node src/index.ts",
-    "start": "nodemon --exec ts-node index.ts"
+    "start": "node dist/index.js"
   },
   "dependencies": {
     "@babel/core": "^7.21.0",
